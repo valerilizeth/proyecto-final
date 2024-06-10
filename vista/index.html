@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=he, initial-scale=1.0">
+    <title>TO-DO List</title>
+
+    <link rel="stylesheet" href="./style.css">
+    <script src="./index.js" defer></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <section class="todo">
+        <div class="todo_title">
+            <select name="" id="filter" onchange="filterTask()">
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="active">In Progress</option>
+                <option value="inactive">Pending</option>
+            </select>
+            <p>TO-DO List</p>
+            <i class="fa fa-plus" id="open_modal" onclick="renderTask()"></i>
+        </div>
+        <div class="todo_list" id="todoList">
+        </div>
+        <div class="todo_consolidate">
+            <p id="totalTasks">Total Items</p>
+            <button>Delete all</button>
+        </div>
+    </section>
+
+
+    <div class="modal animate__animated animate__bounce" id="modal">
+        <div class="modal_content">
+            <div class="modal_content_header">
+                <p>Add Task</p>
+                <i class="fa fa-close" id="close_modal"></i>
+            </div>
+            <div class="modal_content_body">
+                <div class="modal_content_body_input">
+                    <label for="">Title</label>
+                    <input type="text" id="title">
+                </div>
+                <div class="modal_content_body_input">
+                    <label for="">Description</label>
+                    <textarea name="" id="description" cols="30" rows="10"></textarea>
+                </div>
+                <div class="modal_content_body_input">
+                    <label for="">Responsable</label>
+                    <input type="text" id="author">
+                </div>
+            </div>
+            <div class="modal_content_footer">
+                <button class="btn-save">Save</button>
+                <button class="btn-edit">Editar</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
