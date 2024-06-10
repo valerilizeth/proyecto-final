@@ -47,15 +47,12 @@ function closeModal() {
 }
 
 function changeStateTodo(id, state) {
-    console.log(id, state);
     updateTask(id, state);
-    console.log('Cambiando estado de la tarea');
 }
 
 function getTasks() {
     fetch(URL_API).then((res) => {
         res.json().then((data) => {
-            console.log(data);
             taskArray = data;
             getTotalTasks()
             data.forEach((task) => {
@@ -79,7 +76,6 @@ function editTask(id) {
     const title = task.querySelector('.todo_list_card_info p');
     const description = task.querySelector('.todo_list_card_info p:nth-child(2)');
     const author = task.querySelector('.todo_list_card_info-author p:nth-child(2)');
-    console.log(title.textContent, description.textContent, author.textContent);
     titleInput.value = title.textContent;
     descriptionInput.value = description.textContent;
     authorInput.value = author.textContent;
@@ -107,7 +103,6 @@ function addTask() {
     }).then((res) => {
         console.log(res);
         res.json().then((data) => {
-            console.log(data);
             renderTask(data);
         })
     }).catch((err) => {
@@ -123,9 +118,7 @@ function updateTask(id, state) {
             'Content-Type': 'application/json'
         }
     }).then((res) => {
-        // console.log(res);    
         res.json().then((data) => {
-            // console.log(data);
             findTaskAndChangeState(data._id, state);
         })
     }).catch((err) => {
@@ -152,7 +145,6 @@ function updateTaskInfo() {
         }
     }).then((res) => {
         res.json().then((data) => {
-            console.log(data);
             closeModal();
             const task = document.getElementById(data._id);
             const title = task.querySelector('.todo_list_card_info p');
@@ -174,7 +166,7 @@ function deleteTask(id) {
         method: 'DELETE'
     }).then((res) => {
         res.json().then((data) => {
-            console.log(data);
+            (data);
             const task = document.getElementById(id);
             task.remove();
             taskArray = taskArray.filter((task) => task._id !== id);
@@ -195,10 +187,8 @@ function filterTask() {
         return;
     }
 
-    console.log(state);
     fetch(`${URL_API}?state=${state}`).then((res) => {
         res.json().then((data) => {
-            console.log(data);
             todoList.innerHTML = '';
             taskArray = data;
             getTotalTasks()
@@ -219,7 +209,6 @@ function completeTask(id, state) {
         state = 'active';
     }
 
-    // only change status if the task is active
     const task = document.getElementById(id);
     const taskState = task.querySelector('.todo_list_card_state p');
     if (taskState.textContent === 'active' || taskState.textContent === 'completed') {
@@ -229,19 +218,10 @@ function completeTask(id, state) {
         alert('Solo puedes completar tareas activas');
         inputCheckbox.checked = false;
     }
-
-    // if (state === 'completed') {
-    //     inputCheckbox.setAttribute('checked', 'checked');
-    //     updateTask(id, state);
-    // } else {
-    //     inputCheckbox.removeAttribute('checked');
-    //     alert('Solo puedes completar tareas activas');
-    // }
 }
 
 function renderTask(task) {
     const taskItem = document.createElement('div');
-    // delete any previous task
     const previousTask = document.getElementById(task._id);
     if (previousTask) {
         previousTask.remove();
@@ -249,7 +229,6 @@ function renderTask(task) {
     taskItem.classList.add('todo_list_card');
     taskItem.setAttribute('id', task._id);
 
-    // validate if checkbox is checked
     let checked = '';
     if (task.status === 'completed') {
         checked = 'checked';
@@ -281,8 +260,6 @@ function renderTask(task) {
 
 function getTotalTasks() {
     const count = taskArray.length;
-    console.log(count);
     const totalTasks = document.getElementById('totalTasks');
-    console.log(totalTasks);
     totalTasks.textContent = count;
 }
