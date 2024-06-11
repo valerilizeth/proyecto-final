@@ -1,7 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    background-color: #dbbbf5;
+    background-color: #1d1e2c;
     padding: 30px;
+    font-family: "Roboto", sans-serif;
+}
+
+h1 {
+    color: white;
+    text-align: center;
 }
 
 section {
@@ -16,15 +30,11 @@ section {
     padding: 12px 16px;
 }
 
-.todo_title p {
-    width: 100%;
-    text-align: center;
-}
 
 .todo_title i {
     cursor: pointer;
     font-size: 32px;
-    color: #9c0d38;
+    color: #ddbdd5;
 }
 
 .todo_list {
@@ -32,16 +42,16 @@ section {
     flex-direction: column;
     gap: 10px;
     padding: 15px 0px;
-    border-top: 1px solid #9c0d38;
-    border-bottom: 1px solid #9c0d38;
+    border-top: 1px solid #ddbdd5;
+    border-bottom: 1px solid #ddbdd5;
 }
 
 .todo_list_card {
-    background-color: #ce5374;
+    background-color: #ac9fbb;
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 5px 10px;
+    padding: 5px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -50,14 +60,20 @@ section {
     width: 100%;
     display: flex;
     flex-direction: column;
-    line-height: 0px;
-
+    gap: 5px;
+    padding: 20px 0px;
 }
 
 .todo_list_card_info-author {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     align-items: center;
+}
+
+.todo_list_card_info-author p {
+    margin: 0px;
+    color: #1d1e2c;
+    font-weight: 900;
 }
 
 .todo_list_card_state {
@@ -66,6 +82,8 @@ section {
     justify-content: center;
     align-items: center;
 }
+
+
 
 .todo_list_card_state p {
     font-size: 18px;
@@ -76,16 +94,50 @@ section {
     padding: 5px 10px;
 }
 
+.todo_list_card_state-active p {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.todo_list_card_state-inactive p {
+
+    background-color: #9c0d38;
+}
+
+.todo_list_card_state-completed p {
+    background-color: #0d9c38;
+}
+
 .todo_list_card_actions {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
+    justify-content: center;
+}
+
+.play:hover {
+    color: #f7ebec;
+    background-color: #59656f;
+    border-radius: 50%;
+}
+
+.edit:hover {
+    color: #f7ebec;
+    background-color: #59656f;
+    border-radius: 100%;
+}
+
+.trash:hover {
+    color: #f7ebec;
+    background-color: #59656f;
+    border-radius: 100%;
 }
 
 .todo_list_card_actions i {
     cursor: pointer;
     font-size: 24px;
-    color: white;
+    color: #1d1e2c;
+    padding: 10px;
 }
 
 .todo_consolidate {
@@ -93,6 +145,27 @@ section {
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
+}
+
+.todo_consolidate-items {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #ddbdd5;
+    font-size: 24px;
+}
+
+.todo_list_card_info-title {
+    font-size: 18px;
+    color: #1d1e2c;
+    margin: 0px;
+    font-weight: 700;
+}
+
+.todo_list_card_info-description {
+    font-size: 16px;
+    color: #1d1e2c;
+    margin: 0px;
 }
 
 /* add animation to opan and close modal */
@@ -108,8 +181,6 @@ section {
     background-color: rgba(0, 0, 0, 0.651);
 }
 
-
-
 .modal_content {
     background-color: white;
     border-radius: 15px;
@@ -124,6 +195,13 @@ section {
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
+}
+
+.modal_content_header p {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 .modal_content_header i {
@@ -142,6 +220,20 @@ section {
     margin: 10px 0px;
 }
 
+.modal_content_body_input input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0px;
+}
+
+.modal_content_body_input label {
+    font-size: 18px;
+    color: #1d1e2c;
+    font-weight: 700;
+    display: block;
+}
+
+
 .modal_content_footer {
     display: flex;
     justify-content: flex-end;
@@ -157,3 +249,39 @@ section {
     cursor: pointer;
 }
 
+.custom-checkbox {
+    display: none;
+}
+
+.custom-label {
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.custom-label:before,
+.custom-label:after {
+    content: '';
+    position: absolute;
+    border-radius: 3px;
+}
+
+.custom-label:before {
+    width: 18px;
+    height: 18px;
+    left: 0;
+    top: 0;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.custom-checkbox:checked+.custom-label:after {
+    width: 8px;
+    height: 14px;
+    left: 5px;
+    top: 1px;
+    border: solid #333;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}

@@ -47,6 +47,17 @@ function closeModal() {
 }
 
 function changeStateTodo(id, state) {
+
+    const task = taskArray.find((task) => task._id === id);
+    if (task.status === state) {
+        alert('La tarea ya esta en ese estado');
+        return;
+    }
+
+    if(task.status === 'completed' && state === 'active'){
+        alert('No puedes activar una tarea completada, por favor desmarca la casilla de completado');
+        return;
+    }
     updateTask(id, state);
 }
 
@@ -67,8 +78,12 @@ function getTasks() {
 function findTaskAndChangeState(id, stateTask) {
     const task = document.getElementById(id);
     const state = task.querySelector('.todo_list_card_state p');
-
-    state.textContent = stateTask;
+    const stateDiv = task.querySelector('.todo_list_card_state');
+    state.textContent = getParseState(stateTask);
+    stateDiv.classList.remove('todo_list_card_state-active');
+    stateDiv.classList.remove('todo_list_card_state-completed');
+    stateDiv.classList.remove('todo_list_card_state-inactive');
+    stateDiv.classList.add(`todo_list_card_state-${stateTask}`);
 }
 
 function editTask(id) {
@@ -120,6 +135,12 @@ function updateTask(id, state) {
     }).then((res) => {
         res.json().then((data) => {
             findTaskAndChangeState(data._id, state);
+            taskArray = taskArray.map((task) => {
+                if (task._id === data._id) {
+                    return data;
+                }
+                return task;
+            })
         })
     }).catch((err) => {
         console.log(err);
@@ -209,10 +230,10 @@ function completeTask(id, state) {
         state = 'active';
     }
 
-    const task = document.getElementById(id);
-    const taskState = task.querySelector('.todo_list_card_state p');
-    if (taskState.textContent === 'active' || taskState.textContent === 'completed') {
-        const newState = taskState.textContent === 'active' ? 'completed' : 'inactive';
+    const task = taskArray.find((task) => task._id === id);
+    const taskState = task.status;
+    if (taskState === 'active' || taskState === 'completed') {
+        const newState = taskState === 'active' ? 'completed' : 'inactive';
         updateTask(id, newState);
     } else {
         alert('Solo puedes completar tareas activas');
@@ -222,6 +243,7 @@ function completeTask(id, state) {
 
 function renderTask(task) {
     const taskItem = document.createElement('div');
+    
     const previousTask = document.getElementById(task._id);
     if (previousTask) {
         previousTask.remove();
@@ -234,24 +256,31 @@ function renderTask(task) {
         checked = 'checked';
     }
 
+    const stateParce = getParseState(task.status)
 
     taskItem.innerHTML = `
-        <input type="checkbox" name="" id="${task._id}-checkbox" onchange="completeTask('${task._id}', 'completed')" ${checked} >
+    <input type="checkbox" id="${task._id}-checkbox" onchange="completeTask('${task._id}', 'completed')" ${checked} class="custom-checkbox">
+    <label for="${task._id}-checkbox" class="custom-label"></label>
         <div class="todo_list_card_info">
-            <p>${task.title}</p>
-            <p>${task.description}</p>
-            <div class="todo_list_card_info-author">
-                <p>Responsable:</p>
-                <p>${task.author}</p>
-            </div>
+            <p class="todo_list_card_info-title">${task.title}</p>
+            <p class="todo_list_card_info-description" >${task.description}</p>
+
+            ${task.author === 'Anónimo' ? '' : `
+                <div class="todo_list_card_info-author">
+                    <p>Responsable:</p>
+                    <p>${task.author}</p>
+                </div>
+    
+                
+                 `}
         </div>
-        <div class="todo_list_card_state">
-            <p>${task.status}</p>
+        <div class="todo_list_card_state todo_list_card_state-${task.status}">
+            <p>${stateParce}</p>
         </div> 
         <div class="todo_list_card_actions">
-            <i class="fa fa-play" onclick="changeStateTodo('${task._id}', 'active')"></i>
-            <i class="fa fa-edit" onclick="editTask('${task._id}')"></i>
-            <i class="fa fa-trash" onclick="deleteTask('${task._id}')"></i>
+            <i class="fa fa-play play" onclick="changeStateTodo('${task._id}', 'active')"></i>
+            <i class="fa fa-edit edit" onclick="editTask('${task._id}')"></i>
+            <i class="fa fa-trash trash" onclick="deleteTask('${task._id}')"></i>
         </div>
     `;
     todoList.appendChild(taskItem);
@@ -262,4 +291,17 @@ function getTotalTasks() {
     const count = taskArray.length;
     const totalTasks = document.getElementById('totalTasks');
     totalTasks.textContent = count;
+}
+
+function getParseState(state) {
+    switch (state) {
+        case 'active':
+            return 'Activa';
+        case 'completed':
+            return 'Completada';
+        case 'inactive':
+            return 'Inactiva';
+        default:
+            return 'Activa';
+    }
 }

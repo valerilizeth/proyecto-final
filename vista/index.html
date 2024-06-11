@@ -15,19 +15,21 @@
     <section class="todo">
         <div class="todo_title">
             <select name="" id="filter" onchange="filterTask()">
-                <option value="all">All</option>
-                <option value="completed">Completed</option>
-                <option value="active">In Progress</option>
-                <option value="inactive">Pending</option>
+                <option value="all">Todos</option>
+                <option value="completed">Completados</option>
+                <option value="active">En progreso</option>
+                <option value="inactive">Pendientes</option>
             </select>
-            <p>TO-DO List</p>
+            <h1>TO-DO List</h1>
             <i class="fa fa-plus" id="open_modal" onclick="renderTask()"></i>
         </div>
         <div class="todo_list" id="todoList">
         </div>
         <div class="todo_consolidate">
-            <p id="totalTasks">Total Items</p>
-            <button>Delete all</button>
+            <div class="todo_consolidate-items">
+                <p>Total Items</p>
+                <strong id="totalTasks"></strong>
+            </div>
         </div>
     </section>
 
@@ -41,15 +43,15 @@
             <div class="modal_content_body">
                 <div class="modal_content_body_input">
                     <label for="">Title</label>
-                    <input type="text" id="title">
+                    <input type="text" id="title" placeholder="Ingresa el titulo de la tarea">
                 </div>
                 <div class="modal_content_body_input">
                     <label for="">Description</label>
-                    <textarea name="" id="description" cols="30" rows="10"></textarea>
+                    <input type="text" id="description" placeholder="ingresa una descripcion de la tarea"></textarea>
                 </div>
                 <div class="modal_content_body_input">
                     <label for="">Responsable</label>
-                    <input type="text" id="author">
+                    <input type="text" id="author" placeholder="Ingresa el nombre del responsable">
                 </div>
             </div>
             <div class="modal_content_footer">
